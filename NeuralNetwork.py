@@ -11,7 +11,7 @@ class NeuralNetwork:
         self.nodes_per_hidden_layer = nodes_per_hidden_layer
         self.output_layer = np.zeros(num_output_nodes)
         self.input_layer = np.zeros(num_input_nodes)
-        self.is_trained = True
+        self.is_trained = False
         self.weights = []
         self.biases = []
 
@@ -22,23 +22,25 @@ class NeuralNetwork:
                 self.weights.append(np.random.randn(self.nodes_per_hidden_layer,
                                                     self.nodes_per_hidden_layer))
         # weights from the last hidden layer to the output layer
-        self.weights.append(np.random.randn(num_output_nodes, nodes_per_hidden_layer))
+        self.weights.append(np.random.randn(self.num_output_nodes, self.nodes_per_hidden_layer))
 
         # set up biases
-        self.biases.append(np.random.randn(nodes_per_hidden_layer))
+        self.biases.append(np.random.randn(self.nodes_per_hidden_layer, 1))
         if self.num_hidden_layers > 1:
             for _ in range(self.num_hidden_layers):
-                self.biases.append(np.random.randn(self.nodes_per_hidden_layer))
-        self.biases.append(np.random.randn(num_output_nodes))
+                self.biases.append(np.random.randn(self.nodes_per_hidden_layer, 1))
+        self.biases.append(np.random.randn(self.num_output_nodes, 1))
 
-    def train(self, learning_rate, examples):
-        pass
+    def train(self, input_examples, output_examples, learning_rate):
+        self.is_trained = True
 
     def __backward_pass(self):
         pass
 
     def __forward_pass(self, x):
-        a = [np.copy(x)]
+        # A : the activated layers, should this be sigmoid???
+        a = [self.__sigmoid(np.copy(x))]
+        # Z : the linear layers
         z = []
         for i in range(len(self.weights)):
             z.append(self.weights[i].dot(a[-1]) + self.biases[i])
@@ -54,4 +56,4 @@ class NeuralNetwork:
     def predict(self, x):
         assert self.is_trained, "Model is not trained. Please provide some input examples and run the train() function"
         _, y = self.__forward_pass(x)
-        return y[-1]
+        return np.array(y[-1]).flatten()  # this is probably not the way to do this
