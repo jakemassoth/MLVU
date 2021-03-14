@@ -1,3 +1,3 @@
 # Machine Learning Project
 ## Setup
-I reccomend using a venv for this with Python 3.9. It also requires numpy, matplotlib and PyQt5.
+I recommend using a venv for this with Python 3.8. It also requires numpy, matplotlib, keras, tensorflow and PyQt5.
