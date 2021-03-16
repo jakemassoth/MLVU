@@ -35,7 +35,7 @@ def prepare_data():
 if __name__ == '__main__':
     (x_train, y_train), (x_test, y_test) = prepare_data()
 
-    nn = NeuralNetwork(num_input_nodes=784, num_output_nodes=10, num_hidden_layers=1, nodes_per_hidden_layer=1024)
+    nn = NeuralNetwork(num_input_nodes=784, num_output_nodes=10, num_hidden_layers=1, nodes_per_hidden_layer=128)
     LEARNING_RATE = 0.01
     EPOCHS = 20
     loss, _ = nn.train(x_train, y_train, LEARNING_RATE, EPOCHS)

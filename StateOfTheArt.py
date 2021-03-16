@@ -15,12 +15,17 @@ if __name__ == '__main__':
 
     model = Sequential()
     model.add(Dense(128, input_dim=784, activation='sigmoid'))
+    model.add(Dense(128, activation='sigmoid'))
     model.add(Dense(10, activation='sigmoid')) #or, activation='softmax'
 
     optimizer = Adam(lr=LEARNING_RATE)  # Adam uses stochastic gradient descent
     model.compile(optimizer=optimizer, loss='MSE', metrics=['accuracy'])
+    model.summary()
 
     model.fit(x_train, y_train, epochs=EPOCH, callbacks=[hist])
+    _, accuracy = model.evaluate(x_test, y_test)
+
+    print(accuracy)
 
     y_loss = hist.history['loss']
     x_epoch = np.arange(0, EPOCH, 1)
