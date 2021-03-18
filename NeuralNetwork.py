@@ -54,17 +54,19 @@ class NeuralNetwork:
         biases_history = []
 
         # Perform gradient descent
-        for i in range(epochs):
+        for epoch in range(epochs):
+            epoch_loss = []
             for x, y in zip(x_train, y_train):
                 z_hat, y_hat = self.__forward_pass(x)
                 loss = self.__mean_squared_loss(np.array(y_hat[-1]).flatten(), y)
-                loss_history.append(loss)
+                epoch_loss.append(loss)
 
                 gradients_w = self.__backward_pass(y_hat, z_hat, y)
                 new_weights, new_biases = self.__update_weights(gradients_w, learning_rate)
                 weights_history.append(new_weights)
                 biases_history.append(new_biases)
-            print("Epoch: {0}, Most recent Loss: {1}".format(i, loss_history[-1]))
+            loss_history.append(epoch_loss[-1])
+            print("Epoch: {0}, Most recent Loss: {1}".format(epoch, loss_history[-1]))
 
         self.__is_trained = True
         return loss_history, weights_history
@@ -81,6 +83,9 @@ class NeuralNetwork:
                                   "function "
         _, y = self.__forward_pass(x)
         return np.array(y[-1]).flatten()  # this is probably not the way to do this
+
+    def evaluate(self, x, y):
+        pass
 
     def __backward_pass(self, y_hat, z_hat, y_true):
         w_gradient = []
