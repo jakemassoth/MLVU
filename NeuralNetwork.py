@@ -85,7 +85,14 @@ class NeuralNetwork:
         return np.array(y[-1]).flatten()  # this is probably not the way to do this
 
     def evaluate(self, x, y):
-        pass
+        correct = 0
+        for example, target in zip(x, y):
+            y_pred = self.predict(example)
+            maxi = np.max(y_pred)
+            max_index = np.where(y_pred == maxi)
+            if target[max_index] == 1:
+                correct += 1
+        return correct / len(y)
 
     def __backward_pass(self, y_hat, z_hat, y_true):
         w_gradient = []
