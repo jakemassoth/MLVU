@@ -68,6 +68,7 @@ class NeuralNetwork:
             loss_history.append(epoch_loss[-1])
             print("Epoch: {0}, Most recent Loss: {1}".format(epoch, loss_history[-1]))
 
+
         self.__is_trained = True
         return loss_history, weights_history
 
@@ -98,12 +99,12 @@ class NeuralNetwork:
         w_gradient = []
         predicted = y_hat[-1]
         # calculate the error for the output layer
-        error = 2 * (predicted - y_true) / predicted.shape[0] * self.__sigmoid_derivative(z_hat[-1])
+        error = 2 * (predicted - y_true) / predicted.shape[0] * self.__relu_derivative(z_hat[-1])
         delta_error = np.outer(error, y_hat[-2])
         w_gradient.append(delta_error)
         for i in reversed(range(len(self.__weights) - 1)):
             d_w = np.dot(self.__weights[i + 1].T, error)
-            error = d_w * self.__sigmoid_derivative(z_hat[i])
+            error = d_w * self.__relu_derivative(z_hat[i])
             delta_error = np.outer(error, y_hat[i])
             w_gradient.append(delta_error)
 
@@ -125,7 +126,7 @@ class NeuralNetwork:
         z = []
         for i in range(len(self.__weights)):
             z.append(self.__weights[i].dot(a[-1]))
-            a.append(self.__sigmoid(z[-1]))
+            a.append(self.__relu(z[-1]))
         return z, a
 
     def __update_weights(self, gradients_w, learning_rate):
@@ -148,9 +149,9 @@ class NeuralNetwork:
         return np.average((y_true - y_pred) ** 2, axis=0)
 
     @staticmethod
-    def __sigmoid(x):
-        return 1 / (1 + np.exp(-x))
+    def __relu(x):
+        return np.maximum(0, x)
 
     @staticmethod
-    def __sigmoid_derivative(x):
-        return (np.exp(-x)) / ((np.exp(-x) + 1) ** 2)
+    def __relu_derivative(x):
+        return np.heaviside(x, 0)

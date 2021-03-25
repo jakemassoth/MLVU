@@ -40,11 +40,11 @@ def prepare_data():
 if __name__ == '__main__':
     (x_train, y_train), (x_validate, y_validate), (x_test, y_test) = prepare_data()
 
-    hidden_layer_trials = [1, 5, 10]
+    hidden_layer_trials = [5]
     num_node_trials = [256, 512, 1024]
 
     LEARNING_RATE = 0.01
-    EPOCHS = 50
+    EPOCHS = 30
 
     res = []
     headers = []
