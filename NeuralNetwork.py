@@ -68,7 +68,6 @@ class NeuralNetwork:
             loss_history.append(epoch_loss[-1])
             print("Epoch: {0}, Most recent Loss: {1}".format(epoch, loss_history[-1]))
 
-
         self.__is_trained = True
         return loss_history, weights_history
 
@@ -155,3 +154,11 @@ class NeuralNetwork:
     @staticmethod
     def __relu_derivative(x):
         return np.heaviside(x, 0)
+
+    #    @staticmethod
+    # def __sigmoid(x):
+    #    return 1 / (1 + np.exp(-x))
+
+    # @staticmethod
+    # def __sigmoid_derivative(x):
+    #    return (np.exp(-x)) / ((np.exp(-x) + 1) ** 2)
